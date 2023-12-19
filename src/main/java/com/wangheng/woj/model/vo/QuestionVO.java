@@ -1,10 +1,12 @@
 package com.wangheng.woj.model.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.wangheng.woj.model.dto.question.JudgeConfig;
+import com.wangheng.woj.model.entity.Question;
+import com.wangheng.woj.service.QuestionService;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,6 +14,8 @@ import java.util.List;
 
 @Data
 public class QuestionVO implements Serializable {
+
+    private final static Gson GSON = new Gson();
     /**
      * id
      */
@@ -46,7 +50,7 @@ public class QuestionVO implements Serializable {
     /**
      * 判题参数（json 数组）
      */
-    private String judgeConfig;
+    private JudgeConfig judgeConfig;
 
 
     /**
@@ -74,6 +78,19 @@ public class QuestionVO implements Serializable {
      */
     private Date updateTime;
 
+    private UserVO user;
+
 
     private static final long serialVersionUID = 1L;
+
+    public static QuestionVO objToVo(Question question) {
+        QuestionVO questionVO = new QuestionVO();
+        BeanUtils.copyProperties(question,questionVO);
+
+        questionVO.setTags(GSON.fromJson(question.getTags(),new TypeToken<List<String>>() {
+        }.getType()));
+        questionVO.setJudgeConfig(GSON.fromJson(question.getJudgeConfig(),JudgeConfig.class));
+
+        return questionVO;
+    }
 }

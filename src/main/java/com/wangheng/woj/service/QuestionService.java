@@ -5,9 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wangheng.woj.model.dto.question.QuestionQueryRequest;
 import com.wangheng.woj.model.entity.Question;
+import com.wangheng.woj.model.entity.QuestionSubmit;
+import com.wangheng.woj.model.entity.User;
+import com.wangheng.woj.model.vo.QuestionSubmitVO;
 import com.wangheng.woj.model.vo.QuestionVO;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
 * @author WangH
@@ -36,18 +37,18 @@ public interface QuestionService extends IService<Question> {
      * 获取题目封装
      *
      * @param question
-     * @param request
+     * @param user
      * @return
      */
-    QuestionVO getQuestionVO(Question question, HttpServletRequest request);
+    QuestionVO getQuestionVO(Question question, User user);
 
     /**
      * 分页获取题目封装
      *
      * @param questionPage
-     * @param request
+     * @param user
      * @return
      */
-    Page<QuestionVO> getQuestionVOPage(Page<Question> questionPage, HttpServletRequest request);
+    Page<QuestionVO> getQuestionVOPage(Page<Question> questionPage, User user);
 
 }
